@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İsmail Kitap - Admin Panel</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="İsmail Kitap Admin Paneli - Kitap yönetimi, sipariş takibi ve işletme yönetimi">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Chart.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <!-- Custom Admin CSS -->
+    <style>
+        :root {
+            --primary-navy: #1e3a8a;
+            --primary-blue: #3b82f6;
+            --primary-hover: #1e40af;
+            --secondary-color: #64748b;
+            --light-bg: #f8fafc;
+            --border-gray: #e2e8f0;
+            --dark-bg: #1e293b;
+            --dark-card: #334155;
+            --light-text: #f1f5f9;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #ca8a04;
+            --info: #0284c7;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Admin Layout */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, var(--primary-navy) 0%, #1a365d 100%);
+            color: var(--light-text);
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-circle {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .logo-circle i {
+            color: var(--primary-navy);
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 18px;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-title {
+            padding: 0 20px 10px 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .sidebar .nav-link {
+            padding: 14px 20px;
+            color: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            border-radius: 0;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .sidebar .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .sidebar .nav-item.active .nav-link {
+            background: linear-gradient(90deg, var(--primary-blue), transparent);
+            color: #fff;
+            border-left: 4px solid #fff;
+        }
+
+        .sidebar .nav-item.active .nav-link::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary-blue), #2563eb);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            transition: all 0.3s ease;
+        }
+
+        /* Navbar Styles */
+        .top-navbar {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 0.8rem 2rem;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: var(--primary-navy);
+        }
+
+        .search-form {
+            max-width: 400px;
+            flex: 1;
+        }
+
+        .search-input {
+            border-radius: 25px;
+            border: 1px solid var(--border-gray);
+            padding: 8px 20px 8px 45px;
+            background-color: var(--light-bg);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background-color: #fff;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+        }
+
+        .navbar-nav .nav-link {
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: var(--light-bg);
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            object-fit: cover;
+            border: 2px solid var(--border-gray);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Content Container */
+        .content-container {
+            padding: 30px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-navy);
+            margin: 0;
+        }
+
+        .page-subtitle {
+            color: var(--secondary-color);
+            margin-top: 5px;
+        }
+
+        /* Dashboard Cards */
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), #2563eb);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .stat-card .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-blue), #2563eb);
+        }
+
+        .stat-card .card-icon i {
+            font-size: 28px;
+            color: #fff;
+        }
+
+        .stat-card.success .card-icon {
+            background: linear-gradient(135deg, var(--success), #15803d);
+        }
+
+        .stat-card.warning .card-icon {
+            background: linear-gradient(135deg, var(--warning), #a16207);
+        }
+
+        .stat-card.danger .card-icon {
+            background: linear-gradient(135deg, var(--danger), #b91c1c);
+        }
+
+        .stat-card .card-content h3 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: var(--primary-navy);
+        }
+
+        .stat-card .card-content p {
+            color: var(--secondary-color);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .stat-card .card-change {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .stat-card .card-change.positive {
+            color: var(--success);
+        }
+
+        .stat-card .card-change.negative {
+            color: var(--danger);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-gray);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .chart-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin: 0;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+        }
+
+        /* Data Tables */
+        .data-table-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-gray);
+        }
+
+        .data-table-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light-bg);
+        }
+
+        .data-table-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin: 0;
+        }
+
+        .data-table {
+            width: 100%;
+        }
+
+        .data-table th {
+            background-color: var(--light-bg);
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            padding: 18px 20px;
+            border: none;
+        }
+
+        .data-table td {
+            padding: 18px 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .data-table tbody tr:hover {
+            background-color: rgba(59, 130, 246, 0.02);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.active {
+            background-color: rgba(22, 163, 74, 0.15);
+            color: var(--success);
+        }
+
+        .status-badge.pending {
+            background-color: rgba(202, 138, 4, 0.15);
+            color: var(--warning);
+        }
+
+        .status-badge.completed {
+            background-color: rgba(2, 132, 199, 0.15);
+            color: var(--info);
+        }
+
+        .status-badge.cancelled {
+            background-color: rgba(220, 38, 38, 0.15);
+            color: var(--danger);
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all 0.2s ease;
+            margin: 0 2px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-btn.view {
+            background: linear-gradient(135deg, var(--info), #0369a1);
+        }
+
+        .action-btn.edit {
+            background: linear-gradient(135deg, var(--primary-blue), #2563eb);
+        }
+
+        .action-btn.delete {
+            background: linear-gradient(135deg, var(--danger), #b91c1c);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Buttons */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary-navy), var(--primary-blue));
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+            color: white;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .content-container {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-navbar {
+                padding: 0.8rem 1rem;
+            }
+            
+            .search-form {
+                display: none;
+            }
+            
+            .chart-wrapper {
+                height: 250px;
+            }
+            
+            .stat-card {
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success Animation */
+        .success-checkmark {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: var(--success);
+            stroke-miterlimit: 10;
+            margin: 10% auto;
+            box-shadow: inset 0px 0px 0px var(--success);
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+
+        .success-checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: var(--success);
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .success-checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 30px var(--success);
+            }
+        }
+
+        /* Page Transitions */
+        .page-content {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="logo-circle">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <span class="logo-text">İsmail Kitap</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-title">Ana Menü</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item active">
+                            <a href="#dashboard" class="nav-link" data-page="dashboard">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#books" class="nav-link" data-page="books">
+                                <i class="fas fa-book"></i>
+                                <span>Kitap Yönetimi</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#categories" class="nav-link" data-page="categories">
+                                <i class="fas fa-tags"></i>
+                                <span>Kategoriler</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#orders" class="nav-link" data-page="orders">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Siparişler</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="menu-section">
+                    <div class="menu-title">Kullanıcı Yönetimi</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="#customers" class="nav-link" data-page="customers">
+                                <i class="fas fa-users"></i>
+                                <span>Müşteriler</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#bookstore-owners" class="nav-link" data-page="bookstore-owners">
+                                <i class="fas fa-store"></i>
+                                <span>Kitapçılar</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#admins" class="nav-link" data-page="admins">
+                                <i class="fas fa-user-shield"></i>
+                                <span>Yöneticiler</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="menu-section">
+                    <div class="menu-title">Raporlar & Ayarlar</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="#reports" class="nav-link" data-page="reports">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Raporlar</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#settings" class="nav-link" data-page="settings">
+                                <i class="fas fa-cog"></i>
+                                <span>Ayarlar</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navbar -->
+            <nav class="navbar navbar-expand-lg top-navbar">
+                <div class="container-fluid">
+                    <!-- Mobile Toggle Button -->
+                    <button id="mobileToggle" class="btn d-lg-none" type="button">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <!-- Search Box -->
+                    <form class="search-form position-relative d-none d-md-flex">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="form-control search-input" placeholder="Kitap, sipariş, müşteri ara...">
+                    </form>
+                    
+                    <!-- Right Navbar Items -->
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link position-relative" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-bell fs-5"></i>
+                                <span class="notification-badge">3</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><h6 class="dropdown-header">Bildirimler</h6></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">
+                                    <i class="fas fa-shopping-cart text-primary me-2"></i>
+                                    Yeni sipariş alındı
+                                    <small class="text-muted d-block">5 dk önce</small>
+                                </a></li>
+                                <li><a class="dropdown-item" href="#">
+                                    <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                    Stok uyarısı: Harry Potter
+                                    <small class="text-muted d-block">2 saat önce</small>
+                                </a></li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                <img src="https://via.placeholder.com/40" alt="Admin" class="rounded-circle admin-avatar me-2">
+                                <span class="d-none d-md-inline-block">Admin</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profil</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Ayarlar</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Çıkış</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <!-- Content Container -->
+            <div class="content-container">
+                <!-- Dashboard Content (Default) -->
+                <div id="dashboard-content" class="page-content">
+                    <div class="page-header">
+                        <h1 class="page-title">Dashboard</h1>
+                        <p class="page-subtitle">İsmail Kitap yönetim paneline hoş geldiniz</p>
+                    </div>
+
+                    <!-- Statistics Cards -->
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card">
+                                <div class="card-header">
+                                    <div class="card-content">
+                                        <h3>₺124,580</h3>
+                                        <p>Bu Ay Toplam Satış</p>
+                                        <div class="card-change positive">
+                                            <i class="fas fa-arrow-up me-1"></i> %15.3 artış
+                                        </div>
+                                    </div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-lira-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card success">
+                                <div class="card-header">
+                                    <div class="card-content">
+                                        <h3>2,847</h3>
+                                        <p>Toplam Sipariş</p>
+                                        <div class="card-change positive">
+                                            <i class="fas fa-arrow-up me-1"></i> %8.2 artış
+                                        </div>
+                                    </div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-shopping-bag"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card warning">
+                                <div class="card-header">
+                                    <div class="card-content">
+                                        <h3>15,847</h3>
+                                        <p>Toplam Kitap</p>
+                                        <div class="card-change positive">
+                                            <i class="fas fa-arrow-up me-1"></i> 243 yeni
+                                        </div>
+                                    </div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="stat-card danger">
+                                <div class="card-header">
+                                    <div class="card-content">
+                                        <h3>4,521</h3>
+                                        <p>Toplam Müşteri</p>
+                                        <div class="card-change positive">
+                                            <i class="fas fa-arrow-up me-1"></i> %12.5 artış
+                                        </div>
+                                    </div>
+                                    <div class="card-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="row">
+                        <!-- Sales Chart -->
+                        <div class="col-lg-8">
+                            <div class="chart-container">
+                                <div class="chart-header">
+                                    <h5 class="chart-title">Aylık Satış İstatistikleri</h5>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-primary active">6 Ay</button>
+                                        <button type="button" class="btn btn-sm btn-outline-primary">1 Yıl</button>
+                                    </div>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="salesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Category Distribution -->
+                        <div class="col-lg-4">
+                            <div class="chart-container">
+                                <div class="chart-header">
+                                    <h5 class="chart-title">Kategori Dağılımı</h5>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="categoryChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Orders Table -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="data-table-container">
+                                <div class="data-table-header">
+                                    <h5 class="data-table-title">Son Siparişler</h5>
+                                    <a href="#orders" class="btn btn-primary-custom btn-sm">
+                                        Tümünü Gör <i class="fas fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Sipariş #</th>
+                                                <th>Müşteri</th>
+                                                <th>Tarih</th>
+                                                <th>Tutar</th>
+                                                <th>Durum</th>
+                                                <th>İşlemler</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>#ORD-8954</strong></td>
+                                                <td>Ayşe Demir</td>
+                                                <td>29 Eyl 2025, 16:45</td>
+                                                <td><strong>₺284.50</strong></td>
+                                                <td><span class="status-badge pending">Hazırlanıyor</span></td>
+                                                <td>
+                                                    <button class="action-btn view" title="Görüntüle"><i class="fas fa-eye"></i></button>
+                                                    <button class="action-btn edit" title="Düzenle"><i class="fas fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>#ORD-8953</strong></td>
+                                                <td>Mehmet Kaya</td>
+                                                <td>29 Eyl 2025, 15:22</td>
+                                                <td><strong>₺156.90</strong></td>
+                                                <td><span class="status-badge active">Kargoda</span></td>
+                                                <td>
+                                                    <button class="action-btn view" title="Görüntüle"><i class="fas fa-eye"></i></button>
+                                                    <button class="action-btn edit" title="Düzenle"><i class="fas fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>#ORD-8952</strong></td>
+                                                <td>Zeynep Aydın</td>
+                                                <td>29 Eyl 2025, 14:08</td>
+                                                <td><strong>₺432.25</strong></td>
+                                                <td><span class="status-badge completed">Teslim Edildi</span></td>
+                                                <td>
+                                                    <button class="action-btn view" title="Görüntüle"><i class="fas fa-eye"></i></button>
+                                                    <button class="action-btn edit" title="Düzenle"><i class="fas fa-edit"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Page Contents (Hidden by default) -->
+                <div id="books-content" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h1 class="page-title">Kitap Yönetimi</h1>
+                        <p class="page-subtitle">Kitap ekleme, düzenleme ve stok yönetimi</p>
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <div class="data-table-header">
+                            <h5 class="data-table-title">Kitap Listesi</h5>
+                            <button class="btn btn-primary-custom">
+                                <i class="fas fa-plus me-2"></i>Yeni Kitap Ekle
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Kapak</th>
+                                        <th>Kitap Adı</th>
+                                        <th>Yazar</th>
+                                        <th>Yayınevi</th>
+                                        <th>Fiyat</th>
+                                        <th>Stok</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><img src="https://dilhjuhvld2bq.cloudfront.net/product/6d3501dad48243b5ab48384fffe0628a_front.jpg?width=40&format=png" alt="" class="img-thumbnail" width="40"></td>
+                                        <td><strong>Cumhuriyet'in İlk Sabahı</strong></td>
+                                        <td>Sermin Yaşar</td>
+                                        <td>Kronik Kitap</td>
+                                        <td><strong>₺89.90</strong></td>
+                                        <td><span class="badge bg-success">42</span></td>
+                                        <td><span class="status-badge active">Aktif</span></td>
+                                        <td>
+                                            <button class="action-btn view" title="Görüntüle"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit" title="Düzenle"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete" title="Sil"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="https://dilhjuhvld2bq.cloudfront.net/product/928e66844d1c48d9a822b21152cc1d57_front.jpg?width=40&format=png" alt="" class="img-thumbnail" width="40"></td>
+                                        <td><strong>Millete Emanet</strong></td>
+                                        <td>Yavuz Öğhan</td>
+                                        <td>Kırmızı Kedi Yayınevi</td>
+                                        <td><strong>₺90.00</strong></td>
+                                        <td><span class="badge bg-warning">8</span></td>
+                                        <td><span class="status-badge pending">Kritik Stok</span></td>
+                                        <td>
+                                            <button class="action-btn view" title="Görüntüle"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit" title="Düzenle"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete" title="Sil"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Content -->
+                <div id="orders-content" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h1 class="page-title">Sipariş Yönetimi</h1>
+                        <p class="page-subtitle">Sipariş takibi ve yönetimi</p>
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <div class="data-table-header">
+                            <h5 class="data-table-title">Tüm Siparişler</h5>
+                            <div class="d-flex gap-2">
+                                <select class="form-select form-select-sm">
+                                    <option>Tüm Durumlar</option>
+                                    <option>Bekleyen</option>
+                                    <option>Hazırlanıyor</option>
+                                    <option>Kargoda</option>
+                                    <option>Teslim Edildi</option>
+                                </select>
+                                <button class="btn btn-outline-secondary btn-sm">Filtrele</button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Sipariş #</th>
+                                        <th>Müşteri</th>
+                                        <th>Ürün Sayısı</th>
+                                        <th>Tarih</th>
+                                        <th>Tutar</th>
+                                        <th>Ödeme</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>#ORD-8954</strong></td>
+                                        <td>Ayşe Demir<br><small class="text-muted">ayse@example.com</small></td>
+                                        <td><span class="badge bg-primary">3</span></td>
+                                        <td>29 Eyl 2025<br><small class="text-muted">16:45</small></td>
+                                        <td><strong>₺284.50</strong></td>
+                                        <td><span class="status-badge completed">Ödendi</span></td>
+                                        <td><span class="status-badge pending">Hazırlanıyor</span></td>
+                                        <td>
+                                            <button class="action-btn view" title="Detaylar"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit" title="Düzenle"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customers Content -->
+                <div id="customers-content" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h1 class="page-title">Bireysel Müşteriler</h1>
+                        <p class="page-subtitle">B2C müşteri yönetimi</p>
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <div class="data-table-header">
+                            <h5 class="data-table-title">Müşteri Listesi</h5>
+                            <button class="btn btn-primary-custom">
+                                <i class="fas fa-user-plus me-2"></i>Yeni Müşteri
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Müşteri</th>
+                                        <th>Email</th>
+                                        <th>Telefon</th>
+                                        <th>Kayıt Tarihi</th>
+                                        <th>Sipariş Sayısı</th>
+                                        <th>Toplam Harcama</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://via.placeholder.com/40" alt="" class="rounded-circle me-3" width="40">
+                                                <div>
+                                                    <strong>Ayşe Demir</strong><br>
+                                                    <small class="text-muted">#CUST-4521</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>ayse.demir@example.com</td>
+                                        <td>+90 532 123 4567</td>
+                                        <td>15 Mar 2025</td>
+                                        <td><span class="badge bg-primary">12</span></td>
+                                        <td><strong>₺1,245.90</strong></td>
+                                        <td><span class="status-badge active">Aktif</span></td>
+                                        <td>
+                                            <button class="action-btn view" title="Profil"><i class="fas fa-user"></i></button>
+                                            <button class="action-btn edit" title="Düzenle"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other page contents with similar structure -->
+                <div id="bookstore-owners-content" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h1 class="page-title">Kitapçı Müşteriler</h1>
+                        <p class="page-subtitle">B2B toptan müşteri yönetimi</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Kitapçı müşteri yönetimi sayfası geliştiriliyor...
+                    </div>
+                </div>
+
+                <div id="categories-content" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h1 class="page-title">Kategori Yönetimi</h1>
+                        <p class="page-subtitle">Kitap kategori ve alt kategori yönetimi</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Kategori yönetimi sayfası geliştiriliyor...
+                    </div>
+                </div>
+
+                <div id="admins-content" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h1 class="page-title">Yönetici Hesapları</h1>
+                        <p class="page-subtitle">Admin kullanıcı yönetimi ve yetkilendirme</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Yönetici hesap yönetimi sayfası geliştiriliyor...
+                    </div>
+                </div>
+
+                <div id="reports-content" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h1 class="page-title">Raporlar</h1>
+                        <p class="page-subtitle">Satış, stok ve müşteri raporları</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Raporlama sayfası geliştiriliyor...
+                    </div>
+                </div>
+
+                <div id="settings-content" class="page-content" style="display: none;">
+                    <div class="page-header">
+                        <h1 class="page-title">Sistem Ayarları</h1>
+                        <p class="page-subtitle">Genel ayarlar ve yapılandırma</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Ayarlar sayfası geliştiriliyor...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container for Notifications -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                <strong class="me-auto">Başarılı</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                İşlem başarıyla tamamlandı.
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        // Admin Panel JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables
+            const sidebar = document.getElementById('sidebar');
+            const mobileToggle = document.getElementById('mobileToggle');
+            const navLinks = document.querySelectorAll('.sidebar .nav-link');
+
+            // Mobile Sidebar Toggle
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+            }
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnToggleBtn = mobileToggle && mobileToggle.contains(event.target);
+                
+                if (window.innerWidth < 992 && !isClickInsideSidebar && !isClickOnToggleBtn && sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                }
+            });
+
+            // Navigation Active State and Page Switching
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all nav items
+                    navLinks.forEach(item => {
+                        item.parentElement.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked nav item
+                    this.parentElement.classList.add('active');
+                    
+                    // Get page name from data attribute
+                    const page = this.getAttribute('data-page');
+                    
+                    // Load page content
+                    loadPage(page);
+                    
+                    // Close sidebar on mobile after navigation
+                    if (window.innerWidth < 992) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            });
+
+            // Load Page Content Function
+            function loadPage(page) {
+                // Hide all page contents
+                document.querySelectorAll('.page-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                // Show selected page content
+                const selectedPage = document.getElementById(page + '-content');
+                if (selectedPage) {
+                    selectedPage.style.display = 'block';
+                    
+                    // Initialize charts if dashboard
+                    if (page === 'dashboard') {
+                        setTimeout(initDashboardCharts, 100);
+                    }
+                } else {
+                    // If page not found, default to dashboard
+                    document.getElementById('dashboard-content').style.display = 'block';
+                    setTimeout(initDashboardCharts, 100);
+                }
+            }
+
+            // Initialize Dashboard Charts
+            function initDashboardCharts() {
+                // Sales Chart
+                const salesCtx = document.getElementById('salesChart');
+                if (salesCtx && !salesCtx.hasAttribute('data-chart-initialized')) {
+                    salesCtx.setAttribute('data-chart-initialized', 'true');
+                    
+                    new Chart(salesCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül'],
+                            datasets: [{
+                                label: 'Satış (₺)',
+                                data: [65400, 78200, 85600, 92300, 108400, 124580],
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                borderColor: 'rgba(59, 130, 246, 1)',
+                                borderWidth: 3,
+                                pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                                pointRadius: 6,
+                                pointHoverRadius: 8,
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleColor: 'white',
+                                    bodyColor: 'white',
+                                    borderColor: 'rgba(59, 130, 246, 1)',
+                                    borderWidth: 1,
+                                    cornerRadius: 8,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `Satış: ₺${context.parsed.y.toLocaleString()}`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)',
+                                        drawBorder: false
+                                    },
+                                    ticks: {
+                                        font: {
+                                            family: 'Segoe UI'
+                                        }
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return '₺' + (value / 1000) + 'K';
+                                        },
+                                        font: {
+                                            family: 'Segoe UI'
+                                        }
+                                    },
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)',
+                                        drawBorder: false
+                                    }
+                                }
+                            },
+                            interaction: {
+                                intersect: false,
+                                mode: 'index'
+                            }
+                        }
+                    });
+                }
+                
+                // Category Distribution Chart
+                const categoryCtx = document.getElementById('categoryChart');
+                if (categoryCtx && !categoryCtx.hasAttribute('data-chart-initialized')) {
+                    categoryCtx.setAttribute('data-chart-initialized', 'true');
+                    
+                    new Chart(categoryCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Roman', 'Bilim Kurgu', 'Kişisel Gelişim', 'Çocuk Kitapları', 'Tarih', 'Diğer'],
+                            datasets: [{
+                                data: [35, 22, 18, 12, 8, 5],
+                                backgroundColor: [
+                                    '#3b82f6',
+                                    '#16a34a',
+                                    '#ca8a04',
+                                    '#dc2626',
+                                    '#9333ea',
+                                    '#64748b'
+                                ],
+                                borderWidth: 0,
+                                hoverBorderWidth: 3,
+                                hoverBorderColor: '#fff'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        boxWidth: 12,
+                                        padding: 15,
+                                        font: {
+                                            size: 12,
+                                            family: 'Segoe UI'
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleColor: 'white',
+                                    bodyColor: 'white',
+                                    borderColor: 'rgba(59, 130, 246, 1)',
+                                    borderWidth: 1,
+                                    cornerRadius: 8,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.label}: %${context.parsed}`;
+                                        }
+                                    }
+                                }
+                            },
+                            cutout: '65%'
+                        }
+                    });
+                }
+            }
+
+            // Action Button Interactions
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.action-btn')) {
+                    e.preventDefault();
+                    const btn = e.target.closest('.action-btn');
+                    
+                    // Add loading effect
+                    const originalContent = btn.innerHTML;
+                    btn.innerHTML = '<div class="loading"></div>';
+                    btn.disabled = true;
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        btn.innerHTML = originalContent;
+                        btn.disabled = false;
+                        
+                        // Show success toast
+                        showToast('İşlem başarıyla tamamlandı!', 'success');
+                    }, 1000);
+                }
+            });
+
+            // Toast Notification Function
+            function showToast(message, type = 'success') {
+                const toast = document.getElementById('successToast');
+                const toastBody = toast.querySelector('.toast-body');
+                toastBody.textContent = message;
+                
+                const bsToast = new bootstrap.Toast(toast);
+                bsToast.show();
+            }
+
+            // Initialize dashboard on load
+            setTimeout(initDashboardCharts, 100);
+
+            // Real-time Clock in Navbar (Optional Enhancement)
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('tr-TR');
+                const dateString = now.toLocaleDateString('tr-TR', { 
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric' 
+                });
+                
+                // You can add a time display element if needed
+                // document.getElementById('current-time').textContent = `${dateString} - ${timeString}`;
+            }
+            
+            // Update time every second
+            setInterval(updateTime, 1000);
+            updateTime();
+
+            // Search functionality simulation
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value;
+                    if (query.length > 2) {
+                        // Simulate search results
+                        console.log('Aranıyor:', query);
+                    }
+                });
+            }
+
+            // Smooth animations for sidebar
+            const style = document.createElement('style');
+            style.textContent = `
+                .sidebar .nav-link {
+                    transform: translateX(0);
+                    transition: transform 0.2s ease, background-color 0.2s ease;
+                }
+                .sidebar .nav-link:hover {
+                    transform: translateX(5px);
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
