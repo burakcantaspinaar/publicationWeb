@@ -72,20 +72,21 @@
             min-height: 100vh;
         }
 
-        /* Sidebar Styles */
+        /* Sidebar Styles - Mobile Optimized */
         .sidebar {
-            width: 260px;
+            width: min(320px, 85vw);
             background: linear-gradient(180deg, var(--primary-navy) 0%, #1a365d 100%);
             color: var(--light-text);
             position: fixed;
             height: 100vh;
-            height: calc(var(--vh, 1vh) * 100);
-            z-index: 1050;
-            transition: all 0.3s ease;
+            height: 100dvh; /* Dynamic viewport for modern browsers */
+            z-index: 999;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             transform: translateX(-100%);
             -webkit-transform: translateX(-100%);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.3);
         }
         
         /* Sidebar active state for mobile */
@@ -94,18 +95,20 @@
             -webkit-transform: translateX(0);
         }
         
-        /* Sidebar overlay for mobile */
+        /* Sidebar overlay for mobile - Enhanced */
         .sidebar-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1040;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 998;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
         }
         
         .sidebar-overlay.active {
@@ -118,10 +121,28 @@
             .sidebar {
                 transform: translateX(0) !important;
                 -webkit-transform: translateX(0) !important;
+                width: 260px;
+                position: relative;
+                box-shadow: none;
             }
             
             .sidebar-overlay {
                 display: none !important;
+            }
+        }
+        
+        /* Mobile body scroll prevention */
+        @media (max-width: 991px) {
+            body.sidebar-open {
+                overflow: hidden;
+                position: fixed;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                transition: none;
             }
         }
 
@@ -144,6 +165,35 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        
+        /* Mobile Close Button Styling */
+        .btn-close-sidebar {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            font-size: 20px;
+            padding: 8px;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+        
+        .btn-close-sidebar:hover {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            transform: rotate(90deg);
+        }
+        
+        .btn-close-sidebar:active {
+            transform: rotate(90deg) scale(0.9);
         }
 
         .sidebar-logo {
@@ -1492,16 +1542,17 @@
     <div class="admin-container">
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo">
-                    <div class="logo-circle">
-                        <i class="fas fa-book-open"></i>
+                <div class="sidebar-header">
+                    <div class="sidebar-logo">
+                        <div class="logo-circle">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <span class="logo-text">İsmail Kitap</span>
                     </div>
-                    <span class="logo-text">İsmail Kitap</span>
-                </div>
-            </div>
-            
-            <div class="sidebar-menu">
+                    <button class="btn-close-sidebar d-lg-none" id="closeSidebarBtn" title="Sidebar'ı Kapat">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>            <div class="sidebar-menu">
                 <div class="menu-section">
                     <div class="menu-title">Ana Menü</div>
                     <ul class="nav flex-column">
@@ -2198,102 +2249,95 @@
             const isMobile = () => window.innerWidth < 992;
             const isTouch = () => 'ontouchstart' in window || navigator.maxTouchPoints;
 
-            // Mobile Sidebar Toggle - Enhanced Stability
-            let sidebarTransitionTimeout;
+            // Mobile Sidebar System - Complete Rewrite
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            let clickOutsideHandler = null;
+            let sidebarAnimationTimeout;
             
-            function toggleSidebar() {
-                const isActive = sidebar.classList.contains('active');
-                
-                if (isActive) {
-                    closeSidebar();
-                } else {
-                    openSidebar();
-                }
-            }
-            
+            // Core sidebar functions
             function openSidebar() {
-                // Clear any pending transitions
-                clearTimeout(sidebarTransitionTimeout);
+                if (sidebarAnimationTimeout) clearTimeout(sidebarAnimationTimeout);
                 
                 sidebar.classList.add('active');
                 sidebarOverlay.classList.add('active');
+                document.body.classList.add('sidebar-open');
                 
-                // Prevent body scroll when sidebar is open
-                document.body.style.overflow = 'hidden';
-                
-                // Add click-outside handler after a small delay to prevent immediate closure
-                setTimeout(() => {
-                    document.addEventListener('click', handleClickOutside);
-                }, 100);
+                // Add click-outside handler after animation starts
+                sidebarAnimationTimeout = setTimeout(() => {
+                    if (clickOutsideHandler) {
+                        document.removeEventListener('click', clickOutsideHandler);
+                    }
+                    clickOutsideHandler = handleClickOutside;
+                    document.addEventListener('click', clickOutsideHandler);
+                }, 50);
             }
             
             function closeSidebar() {
-                // Clear any pending transitions
-                clearTimeout(sidebarTransitionTimeout);
+                if (sidebarAnimationTimeout) clearTimeout(sidebarAnimationTimeout);
                 
                 sidebar.classList.remove('active');
                 sidebarOverlay.classList.remove('active');
-                document.body.style.overflow = '';
+                document.body.classList.remove('sidebar-open');
                 
                 // Remove click-outside handler
-                document.removeEventListener('click', handleClickOutside);
+                if (clickOutsideHandler) {
+                    document.removeEventListener('click', clickOutsideHandler);
+                    clickOutsideHandler = null;
+                }
             }
             
             function handleClickOutside(e) {
-                // Don't close if clicking on sidebar or toggle button
-                if (sidebar.contains(e.target) || (mobileToggle && mobileToggle.contains(e.target))) {
+                // Don't close if clicking inside sidebar or on toggle/close buttons
+                if (sidebar.contains(e.target) || 
+                    (mobileToggle && mobileToggle.contains(e.target)) ||
+                    (closeSidebarBtn && closeSidebarBtn.contains(e.target))) {
                     return;
                 }
                 
-                // Only close on mobile
+                // Only close on mobile devices
                 if (isMobile()) {
                     closeSidebar();
                 }
             }
             
-            // Enhanced mobile toggle with better event handling
+            // Mobile toggle button event
             if (mobileToggle) {
-                // Remove any existing listeners
-                mobileToggle.replaceWith(mobileToggle.cloneNode(true));
-                const newMobileToggle = document.getElementById('mobileToggle');
-                
-                newMobileToggle.addEventListener('click', function(e) {
+                mobileToggle.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    toggleSidebar();
+                    openSidebar();
                 });
-                
-                // Touch event for better mobile responsiveness
-                if (isTouch()) {
-                    newMobileToggle.addEventListener('touchend', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }, { passive: false });
-                }
             }
             
-            // Overlay click to close sidebar with better event handling
-            if (sidebarOverlay) {
-                sidebarOverlay.addEventListener('click', function(e) {
+            // Close button event
+            if (closeSidebarBtn) {
+                closeSidebarBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
                     e.stopPropagation();
                     closeSidebar();
                 });
-                
-                // Touch events for overlay
-                if (isTouch()) {
-                    sidebarOverlay.addEventListener('touchend', function(e) {
-                        e.stopPropagation();
-                        closeSidebar();
-                    }, { passive: false });
-                }
             }
             
-            // Handle window resize
-            window.addEventListener('resize', function() {
-                fixIOSHeight();
-                if (!isMobile()) {
+            // Overlay click event
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     closeSidebar();
-                }
+                });
+            }
+            
+            // Handle window resize with debouncing
+            let sidebarResizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(sidebarResizeTimeout);
+                sidebarResizeTimeout = setTimeout(() => {
+                    fixIOSHeight();
+                    // Auto-close sidebar when switching to desktop view
+                    if (!isMobile() && sidebar.classList.contains('active')) {
+                        closeSidebar();
+                    }
+                }, 100);
             });
             
             // Handle orientation change for iOS
@@ -2451,9 +2495,9 @@
                     // Load page content
                     loadPage(page);
                     
-                    // Close sidebar on mobile after navigation with smooth transition
-                    if (isMobile() && sidebar.classList.contains('active')) {
-                        setTimeout(closeSidebar, 200);
+                    // Close sidebar on mobile after navigation
+                    if (isMobile()) {
+                        closeSidebar();
                     }
                 });
             });
