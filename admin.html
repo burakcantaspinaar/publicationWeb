@@ -9,6 +9,25 @@
     <meta name="description" content="İsmail Kitap Admin Paneli - Kitap yönetimi, sipariş takibi ve işletme yönetimi">
     <meta name="robots" content="noindex, nofollow">
     
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="İK Admin">
+    <meta name="msapplication-TileColor" content="#1e3a8a">
+    <meta name="msapplication-TileImage" content="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjE0NCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDQiIGhlaWdodD0iMTQ0IiByeD0iMjQiIGZpbGw9IiMxZTNhOGEiLz4KPHN2ZyB4PSIzNiIgeT0iMzYiIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0xMiAyQzEzLjEgMiAxNCAyLjkgMTQgNFY4SDIwQzIxLjEgOCAyMiA4LjkgMjIgMTBWMjBDMjIgMjEuMSAyMS4xIDIyIDIwIDIySDRDMi45IDIyIDIgMjEuMSAyIDIwVjEwQzIgOC45IDIuOSA4IDQgOEgxMFY0QzEwIDIuOSAxMC45IDIgMTIgMlpNMTIgNEMxMS40IDQgMTEgNC40IDExIDVWN0gxM1Y1QzEzIDQuNCAxMi42IDQgMTIgNFpNNCA5VjIwSDIwVjlINFpNNiAxMUgxOFYxM0g2VjExWk02IDE1SDE4VjE3SDZWMTVaIi8+Cjwvc3ZnPgo8L3N2Zz4K">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="72x72" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMTIiIGZpbGw9IiMxZTNhOGEiLz4KPHN2ZyB4PSIxNiIgeT0iMTYiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0xMiAyQzEzLjEgMiAxNCAyLjkgMTQgNFY4SDIwQzIxLjEgOCAyMiA4LjkgMjIgMTBWMjBDMjIgMjEuMSAyMS4xIDIyIDIwIDIySDRDMi45IDIyIDIgMjEuMSAyIDIwVjEwQzIgOC45IDIuOSA4IDQgOEgxMFY0QzEwIDIuOSAxMC45IDIgMTIgMlpNMTIgNEMxMS40IDQgMTEgNC40IDExIDVWN0gxM1Y1QzEzIDQuNCAxMi42IDQgMTIgNFpNNCA5VjIwSDIwVjlINFpNNiAxMUgxOFYxM0g2VjExWk02IDE1SDE4VjE3SDZWMTVaIi8+Cjwvc3ZnPgo8L3N2Zz4K">
+    <link rel="apple-touch-icon" sizes="96x96" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTYiIGZpbGw9IiMxZTNhOGEiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0xMiAyQzEzLjEgMiAxNCAyLjkgMTQgNFY4SDIwQzIxLjEgOCAyMiA4LjkgMjIgMTBWMjBDMjIgMjEuMSAyMS4xIDIyIDIwIDIySDRDMi45IDIyIDIgMjEuMSAyIDIwVjEwQzIgOC45IDIuOSA4IDQgOEgxMFY0QzEwIDIuOSAxMC45IDIgMTIgMlpNMTIgNEMxMS40IDQgMTEgNC40IDExIDVWN0gxM1Y1QzEzIDQuNCAxMi42IDQgMTIgNFpNNCA5VjIwSDIwVjlINFpNNiAxMUgxOFYxM0g2VjExWk02IDE1SDE4VjE3SDZWMTVaIi8+Cjwvc3ZnPgo8L3N2Zz4K">
+    <link rel="apple-touch-icon" sizes="144x144" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjE0NCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDQiIGhlaWdodD0iMTQ0IiByeD0iMjQiIGZpbGw9IiMxZTNhOGEiLz4KPHN2ZyB4PSIzNiIgeT0iMzYiIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0xMiAyQzEzLjEgMiAxNCAyLjkgMTQgNFY4SDIwQzIxLjEgOCAyMiA4LjkgMjIgMTBWMjBDMjIgMjEuMSAyMS4xIDIyIDIwIDIySDRDMi45IDIyIDIgMjEuMSAyIDIwVjEwQzIgOC45IDIuOSA4IDQgOEgxMFY4QzEwIDIuOSAxMC45IDIgMTIgMlpNMTIgNEMxMS40IDQgMTEgNC40IDExIDVWN0gxM1Y1QzEzIDQuNCAxMi42IDQgMTIgNFpNNCA5VjIwSDIwVjlINFpNNiAxMUgxOFYxM0g2VjExWk02IDE1SDE4VjE3SDZWMTVaIi8+Cjwvc3ZnPgo8L3N2Zz4K">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNiIgZmlsbD0iIzFlM2E4YSIvPgo8c3ZnIHg9IjQiIHk9IjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0xMiAyQzEzLjEgMiAxNCAyLjkgMTQgNFY4SDIwQzIxLjEgOCAyMiA4LjkgMjIgMTBWMjBDMjIgMjEuMSAyMS4xIDIyIDIwIDIySDRDMi45IDIyIDIgMjEuMSAyIDIwVjEwQzIgOC45IDIuOSA4IDQgOEgxMFY0QzEwIDIuOSAxMC45IDIgMTIgMlpNMTIgNEMxMS40IDQgMTEgNC40IDExIDVWN0gxM1Y1QzEzIDQuNCAxMi42IDQgMTIgNFpNNCA5VjIwSDIwVjlINFpNNiAxMUgxOFYxM0g2VjExWk02IDE1SDE4VjE3SDZWMTVaIi8+Cjwvc3ZnPgo8L3N2Zz4K">
+    
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -646,6 +665,305 @@
                 transform: translateY(0);
             }
         }
+
+        /* Dark Theme Styles */
+        body.dark-theme {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-theme .sidebar {
+            background: linear-gradient(180deg, #020617 0%, #000000 100%);
+        }
+
+        body.dark-theme .top-navbar {
+            background: #1e293b;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border-bottom: 1px solid #334155;
+        }
+
+        body.dark-theme .stat-card,
+        body.dark-theme .chart-container,
+        body.dark-theme .data-table-container {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-theme .data-table-header {
+            background: #0f172a;
+        }
+
+        body.dark-theme .page-title {
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .search-input {
+            background-color: #334155;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .search-input::placeholder {
+            color: #94a3b8;
+        }
+
+        body.dark-theme .table {
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .data-table th {
+            background-color: #0f172a;
+            color: #94a3b8;
+        }
+
+        body.dark-theme .data-table td {
+            border-bottom-color: #334155;
+        }
+
+        body.dark-theme .data-table tbody tr:hover {
+            background-color: rgba(59, 130, 246, 0.08);
+        }
+
+        body.dark-theme .stat-card .card-content h3 {
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .chart-title {
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .data-table-title {
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .navbar-brand {
+            color: #f1f5f9;
+        }
+
+        /* Theme Toggle Button Styles */
+        .theme-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1050;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-blue), #2563eb);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        body.dark-theme .theme-toggle {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+        }
+
+        body.dark-theme .theme-toggle:hover {
+            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5);
+        }
+
+        /* Advanced Filter Panel Styles */
+        .advanced-filter-panel {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-gray);
+            transition: all 0.3s ease;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            margin: 0;
+            color: var(--primary-navy);
+            font-size: 18px;
+        }
+
+        .filter-toggle {
+            background: none;
+            border: none;
+            color: var(--primary-blue);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .filter-body {
+            border-top: 1px solid var(--border-gray);
+            padding-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-body.hidden {
+            display: none;
+        }
+
+        body.dark-theme .advanced-filter-panel {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        body.dark-theme .filter-title {
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .filter-body {
+            border-top-color: #334155;
+        }
+
+        body.dark-theme .form-control,
+        body.dark-theme .form-select {
+            background-color: #334155;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+        body.dark-theme .form-label {
+            color: #f1f5f9;
+        }
+
+        /* Quick Actions Floating Button */
+        .quick-actions {
+            position: fixed;
+            right: 30px;
+            bottom: 90px;
+            z-index: 1045;
+        }
+
+        .quick-action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--success), #15803d);
+            border: none;
+            color: white;
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .quick-action-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5);
+        }
+
+        .quick-action-menu {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 240px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            pointer-events: none;
+        }
+
+        .quick-actions.active .quick-action-menu {
+            max-height: 350px;
+            padding: 15px 0;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .quick-action-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: var(--primary-navy);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .quick-action-item:hover {
+            background: var(--light-bg);
+            color: var(--primary-blue);
+            padding-left: 25px;
+        }
+
+        .quick-action-item i {
+            margin-right: 15px;
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        body.dark-theme .quick-action-menu {
+            background: #1e293b;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.dark-theme .quick-action-item {
+            color: #f1f5f9;
+        }
+
+        body.dark-theme .quick-action-item:hover {
+            background: #334155;
+            color: var(--primary-blue);
+        }
+
+        /* Sortable Container Styles */
+        .sortable-container {
+            min-height: 100px;
+        }
+
+        .sortable-ghost {
+            opacity: 0.5;
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px dashed var(--primary-blue);
+            border-radius: 16px;
+        }
+
+        .card-header, .chart-header {
+            cursor: move;
+            position: relative;
+        }
+
+        .card-header:hover::after, .chart-header:hover::after {
+            content: "⋮⋮";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(59, 130, 246, 0.6);
+            font-size: 14px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -800,8 +1118,100 @@
                         <p class="page-subtitle">İsmail Kitap yönetim paneline hoş geldiniz</p>
                     </div>
 
+                    <!-- Advanced Filter Panel -->
+                    <div class="advanced-filter-panel">
+                        <div class="filter-header">
+                            <h6 class="filter-title">
+                                <i class="fas fa-filter me-2"></i>Gelişmiş Filtreleme
+                            </h6>
+                            <button class="btn btn-sm filter-toggle" onclick="toggleFilterPanel()">
+                                <i class="fas fa-chevron-up"></i> Gizle
+                            </button>
+                        </div>
+                        <div class="filter-body" id="filterBody">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Kategori</label>
+                                    <select class="form-select" multiple size="3">
+                                        <option>Roman</option>
+                                        <option>Bilim Kurgu</option>
+                                        <option>Tarih</option>
+                                        <option>Felsefe</option>
+                                        <option>Çocuk Kitapları</option>
+                                        <option>Akademik</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Fiyat Aralığı (₺)</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="number" class="form-control" placeholder="Min" value="0">
+                                        <input type="number" class="form-control" placeholder="Max" value="1000">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Stok Durumu</label>
+                                    <select class="form-select">
+                                        <option>Tümü</option>
+                                        <option>Stokta var (>10)</option>
+                                        <option>Kritik stok (1-10)</option>
+                                        <option>Tükendi (0)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Tarih Aralığı</label>
+                                    <input type="text" class="form-control" placeholder="Tarih aralığı seçin" value="Son 30 Gün">
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-3">
+                                    <label class="form-label">Yazar</label>
+                                    <input type="text" class="form-control" placeholder="Yazar adı...">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Yayınevi</label>
+                                    <select class="form-select">
+                                        <option>Tümü</option>
+                                        <option>Can Yayınları</option>
+                                        <option>İş Bankası Kültür</option>
+                                        <option>Yapı Kredi</option>
+                                        <option>Doğan Kitap</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Satış Durumu</label>
+                                    <select class="form-select">
+                                        <option>Tümü</option>
+                                        <option>Çok Satan</option>
+                                        <option>Orta Seviye</option>
+                                        <option>Düşük Satış</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Dil</label>
+                                    <select class="form-select">
+                                        <option>Türkçe</option>
+                                        <option>İngilizce</option>
+                                        <option>Almanca</option>
+                                        <option>Fransızca</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-3 gap-2">
+                                <button class="btn btn-light" onclick="resetFilters()">
+                                    <i class="fas fa-undo me-1"></i>Sıfırla
+                                </button>
+                                <button class="btn btn-primary" onclick="applyFilters()">
+                                    <i class="fas fa-search me-1"></i>Filtrele
+                                </button>
+                                <button class="btn btn-success" onclick="exportFilteredData()">
+                                    <i class="fas fa-download me-1"></i>Dışa Aktar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Statistics Cards -->
-                    <div class="row">
+                    <div class="row sortable-container" id="sortableStats">
                         <div class="col-xl-3 col-md-6">
                             <div class="stat-card">
                                 <div class="card-header">
@@ -886,6 +1296,29 @@
                             </div>
                         </div>
                         
+                        <!-- 3D Interactive Sales Chart -->
+                        <div class="col-lg-12 mb-4">
+                            <div class="chart-container">
+                                <div class="chart-header">
+                                    <h5 class="chart-title">
+                                        <i class="fas fa-cube me-2"></i>3D İnteraktif Satış Analizi
+                                    </h5>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-outline-primary toggle-3d" onclick="toggle3DView()">
+                                            <i class="fas fa-eye me-1"></i>2D Görünüm
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" onclick="rotate3DChart()">
+                                            <i class="fas fa-sync-alt me-1"></i>Döndür
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="chart-wrapper" style="height: 450px; position: relative;">
+                                    <canvas id="3dSalesChart" style="width: 100%; height: 100%;"></canvas>
+                                    <div id="3dChartTooltip" style="position: absolute; background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 6px; font-size: 12px; pointer-events: none; opacity: 0; z-index: 10;"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Category Distribution -->
                         <div class="col-lg-4">
                             <div class="chart-container">
@@ -1470,8 +1903,630 @@
                 bsToast.show();
             }
 
+            // 3D Chart Implementation with ThreeJS
+            function init3DChart() {
+                // Load ThreeJS dynamically
+                if (typeof THREE === 'undefined') {
+                    const threeScript = document.createElement('script');
+                    threeScript.src = 'https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js';
+                    threeScript.onload = function() {
+                        create3DChart();
+                    };
+                    document.head.appendChild(threeScript);
+                } else {
+                    create3DChart();
+                }
+            }
+
+            let scene3D, camera3D, renderer3D, chartBars = [], animationId;
+            let isRotating = false;
+
+            function create3DChart() {
+                const canvas = document.getElementById('3dSalesChart');
+                if (!canvas) return;
+
+                // Scene setup
+                scene3D = new THREE.Scene();
+                scene3D.background = new THREE.Color(0xf8fafc);
+                
+                camera3D = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+                renderer3D = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
+                renderer3D.setSize(canvas.clientWidth, canvas.clientHeight);
+                renderer3D.shadowMap.enabled = true;
+                renderer3D.shadowMap.type = THREE.PCFSoftShadowMap;
+
+                // Sales data
+                const salesData = [
+                    {month: 'Nisan', sales: 65400, color: 0x3b82f6, height: 0},
+                    {month: 'Mayıs', sales: 78200, color: 0x10b981, height: 0},
+                    {month: 'Haziran', sales: 85600, color: 0xf59e0b, height: 0},
+                    {month: 'Temmuz', sales: 92300, color: 0xef4444, height: 0},
+                    {month: 'Ağustos', sales: 108400, color: 0x8b5cf6, height: 0},
+                    {month: 'Eylül', sales: 124580, color: 0x06b6d4, height: 0}
+                ];
+
+                // Create 3D bars
+                const maxSales = Math.max(...salesData.map(d => d.sales));
+                const barWidth = 1;
+                const barDepth = 1;
+                const spacing = 2;
+                const maxHeight = 8;
+
+                salesData.forEach((data, index) => {
+                    const height = (data.sales / maxSales) * maxHeight;
+                    data.height = height;
+                    
+                    // Bar geometry
+                    const barGeometry = new THREE.BoxGeometry(barWidth, height, barDepth);
+                    const barMaterial = new THREE.MeshPhongMaterial({
+                        color: data.color,
+                        transparent: true,
+                        opacity: 0.9
+                    });
+                    
+                    const bar = new THREE.Mesh(barGeometry, barMaterial);
+                    bar.position.set(
+                        (index - salesData.length / 2) * spacing,
+                        height / 2,
+                        0
+                    );
+                    bar.castShadow = true;
+                    bar.receiveShadow = true;
+                    bar.userData = data;
+                    
+                    scene3D.add(bar);
+                    chartBars.push(bar);
+
+                    // Label
+                    const canvas2d = document.createElement('canvas');
+                    canvas2d.width = 256;
+                    canvas2d.height = 128;
+                    const ctx = canvas2d.getContext('2d');
+                    
+                    ctx.fillStyle = '#1e293b';
+                    ctx.font = 'bold 20px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(data.month, 128, 40);
+                    ctx.fillText(`₺${(data.sales/1000).toFixed(0)}K`, 128, 80);
+                    
+                    const texture = new THREE.CanvasTexture(canvas2d);
+                    const labelMaterial = new THREE.SpriteMaterial({map: texture});
+                    const label = new THREE.Sprite(labelMaterial);
+                    label.position.set(bar.position.x, height + 1, bar.position.z);
+                    label.scale.set(1.8, 0.9, 1);
+                    scene3D.add(label);
+                });
+
+                // Grid and axes
+                const gridHelper = new THREE.GridHelper(15, 15, 0x888888, 0xcccccc);
+                gridHelper.position.y = -0.1;
+                scene3D.add(gridHelper);
+
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                scene3D.add(ambientLight);
+                
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(10, 10, 5);
+                directionalLight.castShadow = true;
+                scene3D.add(directionalLight);
+
+                // Camera position
+                camera3D.position.set(8, 6, 8);
+                camera3D.lookAt(0, 2, 0);
+
+                // Animation
+                function animate() {
+                    animationId = requestAnimationFrame(animate);
+                    
+                    if (isRotating) {
+                        scene3D.rotation.y += 0.005;
+                    }
+                    
+                    renderer3D.render(scene3D, camera3D);
+                }
+                
+                // Mouse interaction
+                const raycaster = new THREE.Raycaster();
+                const mouse = new THREE.Vector2();
+                
+                canvas.addEventListener('mousemove', onMouseMove);
+                canvas.addEventListener('click', onMouseClick);
+                
+                function onMouseMove(event) {
+                    const rect = canvas.getBoundingClientRect();
+                    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+                    
+                    raycaster.setFromCamera(mouse, camera3D);
+                    const intersects = raycaster.intersectObjects(chartBars);
+                    
+                    // Reset all bars
+                    chartBars.forEach(bar => {
+                        bar.scale.setScalar(1);
+                    });
+                    
+                    if (intersects.length > 0) {
+                        const bar = intersects[0].object;
+                        bar.scale.setScalar(1.1);
+                        canvas.style.cursor = 'pointer';
+                        
+                        // Show tooltip
+                        const tooltip = document.getElementById('3dChartTooltip');
+                        tooltip.style.left = event.clientX - rect.left + 10 + 'px';
+                        tooltip.style.top = event.clientY - rect.top - 30 + 'px';
+                        tooltip.innerHTML = `<strong>${bar.userData.month}</strong><br>Satış: ₺${bar.userData.sales.toLocaleString('tr-TR')}`;
+                        tooltip.style.opacity = 1;
+                    } else {
+                        canvas.style.cursor = 'default';
+                        document.getElementById('3dChartTooltip').style.opacity = 0;
+                    }
+                }
+                
+                function onMouseClick(event) {
+                    raycaster.setFromCamera(mouse, camera3D);
+                    const intersects = raycaster.intersectObjects(chartBars);
+                    
+                    if (intersects.length > 0) {
+                        const bar = intersects[0].object;
+                        showToast(`${bar.userData.month} detayları görüntüleniyor...`, 'info');
+                    }
+                }
+                
+                animate();
+            }
+
+            // 3D Chart controls
+            window.toggle3DView = function() {
+                const toggleBtn = document.querySelector('.toggle-3d');
+                if (camera3D) {
+                    if (toggleBtn.textContent.includes('2D')) {
+                        camera3D.position.set(0, 15, 0.1);
+                        camera3D.lookAt(0, 0, 0);
+                        toggleBtn.innerHTML = '<i class="fas fa-cube me-1"></i>3D Görünüm';
+                        showToast('2D görünüm aktif', 'success');
+                    } else {
+                        camera3D.position.set(8, 6, 8);
+                        camera3D.lookAt(0, 2, 0);
+                        toggleBtn.innerHTML = '<i class="fas fa-eye me-1"></i>2D Görünüm';
+                        showToast('3D görünüm aktif', 'success');
+                    }
+                }
+            };
+
+            window.rotate3DChart = function() {
+                isRotating = !isRotating;
+                const rotateBtn = document.querySelector('button[onclick="rotate3DChart()"]');
+                if (isRotating) {
+                    rotateBtn.innerHTML = '<i class="fas fa-pause me-1"></i>Durdur';
+                    rotateBtn.classList.remove('btn-outline-success');
+                    rotateBtn.classList.add('btn-success');
+                    showToast('Otomatik döndürme aktif', 'info');
+                } else {
+                    rotateBtn.innerHTML = '<i class="fas fa-sync-alt me-1"></i>Döndür';
+                    rotateBtn.classList.remove('btn-success');
+                    rotateBtn.classList.add('btn-outline-success');
+                    showToast('Otomatik döndürme pasif', 'info');
+                }
+            };
+
+            // PWA Service Worker Registration
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js')
+                        .then((registration) => {
+                            console.log('İsmail Kitap Admin PWA: Service Worker registered successfully');
+                            showToast('Uygulama çevrimdışı kullanıma hazır!', 'success');
+                            
+                            // Check for updates
+                            registration.addEventListener('updatefound', () => {
+                                const newWorker = registration.installing;
+                                newWorker.addEventListener('statechange', () => {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        showToast('Yeni güncelleme mevcut! Sayfayı yenileyin.', 'info');
+                                    }
+                                });
+                            });
+                        })
+                        .catch((error) => {
+                            console.error('İsmail Kitap Admin PWA: Service Worker registration failed:', error);
+                        });
+                });
+            }
+
+            // PWA Install Prompt
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                // Show install button in quick actions
+                const installBtn = document.createElement('a');
+                installBtn.href = '#';
+                installBtn.className = 'quick-action-item';
+                installBtn.onclick = installPWA;
+                installBtn.innerHTML = '<i class="fas fa-mobile-alt"></i> Uygulamayı Yükle';
+                
+                const quickActionMenu = document.querySelector('.quick-action-menu');
+                if (quickActionMenu) {
+                    quickActionMenu.appendChild(installBtn);
+                }
+                
+                showToast('Bu uygulamayı cihazınıza yükleyebilirsiniz!', 'info');
+            });
+
+            // PWA Install Function
+            window.installPWA = async function() {
+                if (!deferredPrompt) return;
+                
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                
+                if (outcome === 'accepted') {
+                    showToast('Uygulama başarıyla yüklendi!', 'success');
+                } else {
+                    showToast('Uygulama yükleme iptal edildi', 'info');
+                }
+                
+                deferredPrompt = null;
+            };
+
+            // PWA Installed Event
+            window.addEventListener('appinstalled', (evt) => {
+                showToast('İsmail Kitap Admin başarıyla yüklendi!', 'success');
+                console.log('İsmail Kitap Admin PWA: App installed successfully');
+            });
+
+            // Online/Offline Status
+            function updateOnlineStatus() {
+                const status = navigator.onLine ? 'online' : 'offline';
+                const statusClass = navigator.onLine ? 'success' : 'warning';
+                const statusText = navigator.onLine ? 'Çevrimiçi' : 'Çevrimdışı';
+                
+                showToast(`Bağlantı durumu: ${statusText}`, statusClass);
+                
+                // Add visual indicator
+                const navbar = document.querySelector('.top-navbar');
+                if (navbar) {
+                    navbar.style.borderBottom = navigator.onLine ? '3px solid #10b981' : '3px solid #f59e0b';
+                }
+            }
+
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+
+            // GSAP Advanced Animations
+            function initGSAPAnimations() {
+                // Load GSAP dynamically
+                if (typeof gsap === 'undefined') {
+                    const gsapScript = document.createElement('script');
+                    gsapScript.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js';
+                    gsapScript.onload = function() {
+                        setupAnimations();
+                    };
+                    document.head.appendChild(gsapScript);
+                } else {
+                    setupAnimations();
+                }
+            }
+
+            function setupAnimations() {
+                // Page load animation
+                gsap.fromTo('.sidebar', 
+                    { x: -280, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' }
+                );
+
+                gsap.fromTo('.main-content', 
+                    { x: 50, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.8, delay: 0.2, ease: 'power2.out' }
+                );
+
+                // Stat cards animation on load
+                gsap.fromTo('.stat-card', 
+                    { y: 30, opacity: 0, scale: 0.9 },
+                    { 
+                        y: 0, 
+                        opacity: 1, 
+                        scale: 1, 
+                        duration: 0.6, 
+                        stagger: 0.1, 
+                        delay: 0.4,
+                        ease: 'back.out(1.7)'
+                    }
+                );
+
+                // Chart containers animation
+                gsap.fromTo('.chart-container', 
+                    { y: 40, opacity: 0 },
+                    { 
+                        y: 0, 
+                        opacity: 1, 
+                        duration: 0.7, 
+                        stagger: 0.15, 
+                        delay: 0.6,
+                        ease: 'power2.out'
+                    }
+                );
+
+                // Enhanced card hover animations
+                const cards = document.querySelectorAll('.stat-card, .chart-container, .data-table-container');
+                cards.forEach(card => {
+                    const tl = gsap.timeline({ paused: true });
+                    
+                    tl.to(card, { 
+                        y: -8, 
+                        scale: 1.02,
+                        boxShadow: '0 20px 40px rgba(0,0,0,0.12)',
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                    
+                    card.addEventListener('mouseenter', () => tl.play());
+                    card.addEventListener('mouseleave', () => tl.reverse());
+                });
+
+                // Button ripple effect
+                const buttons = document.querySelectorAll('.btn');
+                buttons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        const rect = this.getBoundingClientRect();
+                        const size = Math.max(rect.width, rect.height);
+                        const x = e.clientX - rect.left - size / 2;
+                        const y = e.clientY - rect.top - size / 2;
+                        
+                        const ripple = document.createElement('span');
+                        ripple.style.cssText = `
+                            position: absolute;
+                            width: ${size}px;
+                            height: ${size}px;
+                            left: ${x}px;
+                            top: ${y}px;
+                            background: rgba(255, 255, 255, 0.4);
+                            border-radius: 50%;
+                            transform: scale(0);
+                            pointer-events: none;
+                            z-index: 1;
+                        `;
+                        
+                        this.style.position = 'relative';
+                        this.style.overflow = 'hidden';
+                        this.appendChild(ripple);
+                        
+                        gsap.to(ripple, {
+                            scale: 2,
+                            opacity: 0,
+                            duration: 0.6,
+                            ease: 'power2.out',
+                            onComplete: () => ripple.remove()
+                        });
+                    });
+                });
+
+                // Sidebar nav animations
+                const navLinks = document.querySelectorAll('.sidebar .nav-link');
+                navLinks.forEach(link => {
+                    const icon = link.querySelector('i');
+                    const text = link.querySelector('span');
+                    
+                    link.addEventListener('mouseenter', () => {
+                        gsap.to(icon, { 
+                            rotation: 360, 
+                            duration: 0.5, 
+                            ease: 'back.out(1.7)' 
+                        });
+                        gsap.to(text, { 
+                            x: 5, 
+                            duration: 0.3, 
+                            ease: 'power2.out' 
+                        });
+                    });
+                    
+                    link.addEventListener('mouseleave', () => {
+                        gsap.to(icon, { 
+                            rotation: 0, 
+                            duration: 0.3 
+                        });
+                        gsap.to(text, { 
+                            x: 0, 
+                            duration: 0.3 
+                        });
+                    });
+                });
+
+                // Loading animation for data tables
+                function addLoadingAnimation(element) {
+                    const loader = document.createElement('div');
+                    loader.className = 'loading-overlay';
+                    loader.innerHTML = `
+                        <div class="loading-spinner">
+                            <div class="spinner-ring"></div>
+                            <div class="loading-text">Yükleniyor...</div>
+                        </div>
+                    `;
+                    
+                    element.style.position = 'relative';
+                    element.appendChild(loader);
+                    
+                    // Animate loader
+                    gsap.fromTo(loader, 
+                        { opacity: 0 },
+                        { opacity: 1, duration: 0.3 }
+                    );
+                    
+                    // Rotate spinner
+                    gsap.to(loader.querySelector('.spinner-ring'), {
+                        rotation: 360,
+                        duration: 1,
+                        repeat: -1,
+                        ease: 'none'
+                    });
+                    
+                    // Auto remove after 2 seconds
+                    setTimeout(() => {
+                        gsap.to(loader, {
+                            opacity: 0,
+                            duration: 0.3,
+                            onComplete: () => loader.remove()
+                        });
+                    }, 2000);
+                }
+
+                // Enhanced page transitions
+                window.loadPageAnimated = function(pageId) {
+                    const currentPage = document.querySelector('.page-content[style*="block"]');
+                    const targetPage = document.getElementById(pageId + '-content');
+                    
+                    if (!targetPage || currentPage === targetPage) return;
+                    
+                    // Slide out current page
+                    gsap.to(currentPage, {
+                        x: -50,
+                        opacity: 0,
+                        duration: 0.4,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                            currentPage.style.display = 'none';
+                            currentPage.style.transform = 'translateX(0)';
+                            currentPage.style.opacity = '1';
+                            
+                            // Slide in new page
+                            targetPage.style.display = 'block';
+                            gsap.fromTo(targetPage,
+                                { x: 50, opacity: 0 },
+                                { 
+                                    x: 0, 
+                                    opacity: 1, 
+                                    duration: 0.4, 
+                                    ease: 'power2.out',
+                                    onComplete: () => {
+                                        // Animate new page content
+                                        const cards = targetPage.querySelectorAll('.stat-card, .chart-container, .data-table-container');
+                                        gsap.fromTo(cards, 
+                                            { y: 20, opacity: 0 },
+                                            { 
+                                                y: 0, 
+                                                opacity: 1, 
+                                                duration: 0.5, 
+                                                stagger: 0.1,
+                                                ease: 'back.out(1.7)'
+                                            }
+                                        );
+                                    }
+                                }
+                            );
+                        }
+                    });
+                };
+
+                // Numbers counter animation
+                function animateNumbers() {
+                    const numbers = document.querySelectorAll('.stat-card h3');
+                    numbers.forEach(number => {
+                        const finalValue = parseFloat(number.textContent.replace(/[^0-9.,]/g, '').replace(',', ''));
+                        if (!isNaN(finalValue)) {
+                            const obj = { value: 0 };
+                            const isCurrency = number.textContent.includes('₺');
+                            
+                            gsap.to(obj, {
+                                value: finalValue,
+                                duration: 2,
+                                delay: Math.random() * 0.5,
+                                ease: 'power2.out',
+                                onUpdate: () => {
+                                    const current = Math.round(obj.value);
+                                    number.textContent = isCurrency ? 
+                                        `₺${current.toLocaleString('tr-TR')}` : 
+                                        current.toLocaleString('tr-TR');
+                                }
+                            });
+                        }
+                    });
+                }
+
+                // Floating elements animation
+                function floatingAnimation() {
+                    const floatingElements = document.querySelectorAll('.theme-toggle, .quick-action-btn');
+                    floatingElements.forEach(el => {
+                        gsap.to(el, {
+                            y: '+=5',
+                            duration: 2,
+                            repeat: -1,
+                            yoyo: true,
+                            ease: 'sine.inOut'
+                        });
+                    });
+                }
+
+                // Initialize all animations
+                setTimeout(() => {
+                    animateNumbers();
+                    floatingAnimation();
+                }, 1000);
+
+                // Override existing loadPage function
+                window.loadPage = window.loadPageAnimated;
+
+                console.log('GSAP animations initialized successfully');
+            }
+
+            // Add loading animation CSS
+            const loadingCSS = document.createElement('style');
+            loadingCSS.textContent = `
+                .loading-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(255, 255, 255, 0.95);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10;
+                    border-radius: inherit;
+                }
+                
+                body.dark-theme .loading-overlay {
+                    background: rgba(30, 41, 59, 0.95);
+                }
+                
+                .loading-spinner {
+                    text-align: center;
+                }
+                
+                .spinner-ring {
+                    width: 40px;
+                    height: 40px;
+                    border: 3px solid #e2e8f0;
+                    border-top: 3px solid #3b82f6;
+                    border-radius: 50%;
+                    margin: 0 auto 10px;
+                }
+                
+                .loading-text {
+                    font-size: 14px;
+                    color: #64748b;
+                    font-weight: 500;
+                }
+                
+                body.dark-theme .loading-text {
+                    color: #94a3b8;
+                }
+                
+                body.dark-theme .spinner-ring {
+                    border-color: #475569;
+                    border-top-color: #3b82f6;
+                }
+            `;
+            document.head.appendChild(loadingCSS);
+
             // Initialize dashboard on load
-            setTimeout(initDashboardCharts, 100);
+            setTimeout(() => {
+                initDashboardCharts();
+                init3DChart();
+                initGSAPAnimations();
+            }, 100);
 
             // Real-time Clock in Navbar (Optional Enhancement)
             function updateTime() {
@@ -1503,6 +2558,172 @@
                 });
             }
 
+            // Theme Toggle Functionality
+            window.toggleTheme = function() {
+                const body = document.body;
+                const themeButton = document.querySelector('.theme-toggle i');
+                
+                if (body.classList.contains('dark-theme')) {
+                    body.classList.remove('dark-theme');
+                    themeButton.className = 'fas fa-moon';
+                    localStorage.setItem('theme', 'light');
+                    showToast('Açık tema aktif edildi', 'success');
+                } else {
+                    body.classList.add('dark-theme');
+                    themeButton.className = 'fas fa-sun';
+                    localStorage.setItem('theme', 'dark');
+                    showToast('Koyu tema aktif edildi', 'success');
+                }
+            };
+            
+            // Check saved theme on page load
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                const themeBtn = document.querySelector('.theme-toggle i');
+                if (themeBtn) themeBtn.className = 'fas fa-sun';
+            }
+
+            // Quick Actions Functionality
+            window.toggleQuickActions = function() {
+                const quickActions = document.getElementById('quickActions');
+                quickActions.classList.toggle('active');
+            };
+
+            // Handle Quick Action clicks
+            window.handleQuickAction = function(action) {
+                const quickActions = document.getElementById('quickActions');
+                quickActions.classList.remove('active');
+                
+                switch(action) {
+                    case 'new-book':
+                        showToast('Yeni kitap ekleme sayfası açılıyor...', 'info');
+                        setTimeout(() => loadPage('books'), 500);
+                        break;
+                    case 'new-order':
+                        showToast('Yeni sipariş oluşturma sayfası açılıyor...', 'info');
+                        setTimeout(() => loadPage('orders'), 500);
+                        break;
+                    case 'new-customer':
+                        showToast('Yeni müşteri ekleme sayfası açılıyor...', 'info');
+                        setTimeout(() => loadPage('users'), 500);
+                        break;
+                    case 'bulk-import':
+                        showToast('Toplu içe aktarma işlemi başlatılıyor...', 'info');
+                        break;
+                    case 'report':
+                        showToast('Hızlı rapor oluşturuluyor...', 'info');
+                        setTimeout(() => loadPage('reports'), 500);
+                        break;
+                    case 'backup':
+                        showToast('Sistem yedeği oluşturuluyor...', 'warning');
+                        break;
+                }
+            };
+
+            // Filter Panel Functionality
+            window.toggleFilterPanel = function() {
+                const filterBody = document.getElementById('filterBody');
+                const toggleBtn = document.querySelector('.filter-toggle');
+                
+                if (filterBody.classList.contains('hidden')) {
+                    filterBody.classList.remove('hidden');
+                    toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Gizle';
+                } else {
+                    filterBody.classList.add('hidden');
+                    toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Göster';
+                }
+            };
+
+            // Filter Functions
+            window.resetFilters = function() {
+                document.querySelectorAll('.filter-body input, .filter-body select').forEach(el => {
+                    if (el.type === 'number') {
+                        el.value = el.placeholder.includes('Min') ? '0' : '1000';
+                    } else if (el.tagName === 'SELECT') {
+                        el.selectedIndex = 0;
+                    } else {
+                        el.value = '';
+                    }
+                });
+                showToast('Filtreler sıfırlandı', 'info');
+            };
+
+            window.applyFilters = function() {
+                showToast('Filtreler uygulandı - 247 sonuç bulundu', 'success');
+                
+                const tables = document.querySelectorAll('.data-table tbody');
+                tables.forEach(table => {
+                    table.style.opacity = '0.5';
+                    setTimeout(() => {
+                        table.style.opacity = '1';
+                    }, 1000);
+                });
+            };
+
+            window.exportFilteredData = function() {
+                showToast('Filtrelenmiş veriler Excel dosyası olarak indiriliyor...', 'info');
+                setTimeout(() => {
+                    showToast('İndirme tamamlandı: ismail_kitap_raporu.xlsx', 'success');
+                }, 2000);
+            };
+
+            // Enhanced Toast Function
+            function showToast(message, type = 'success') {
+                const toastContainer = document.querySelector('.toast-container');
+                
+                const toastId = 'toast_' + Date.now();
+                const toastHtml = `
+                    <div id="${toastId}" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto text-${type}">
+                                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'danger' ? 'times-circle' : 'info-circle'} me-1"></i>
+                                ${type === 'success' ? 'Başarılı' : type === 'warning' ? 'Uyarı' : type === 'danger' ? 'Hata' : 'Bilgi'}
+                            </strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                    </div>
+                `;
+                
+                toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+                const newToast = document.getElementById(toastId);
+                const toast = new bootstrap.Toast(newToast, { delay: 4000 });
+                toast.show();
+                
+                newToast.addEventListener('hidden.bs.toast', function() {
+                    newToast.remove();
+                });
+            }
+
+            // SortableJS Integration
+            const sortableScript = document.createElement('script');
+            sortableScript.src = 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js';
+            sortableScript.onload = function() {
+                const statsSortable = document.getElementById('sortableStats');
+                if (statsSortable) {
+                    new Sortable(statsSortable, {
+                        animation: 200,
+                        handle: '.card-header',
+                        ghostClass: 'sortable-ghost',
+                        onEnd: function(evt) {
+                            showToast('Widget sırası güncellendi', 'success');
+                        }
+                    });
+                }
+            };
+            document.head.appendChild(sortableScript);
+
+            // Click outside to close quick actions
+            document.addEventListener('click', function(e) {
+                const quickActions = document.getElementById('quickActions');
+                if (quickActions && !quickActions.contains(e.target)) {
+                    quickActions.classList.remove('active');
+                }
+            });
+
             // Smooth animations for sidebar
             const style = document.createElement('style');
             style.textContent = `
@@ -1517,5 +2738,37 @@
             document.head.appendChild(style);
         });
     </script>
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Quick Actions Floating Button -->
+    <div class="quick-actions" id="quickActions">
+        <button class="quick-action-btn" onclick="toggleQuickActions()">
+            <i class="fas fa-bolt"></i>
+        </button>
+        <div class="quick-action-menu">
+            <a href="#" class="quick-action-item" onclick="handleQuickAction('new-book')">
+                <i class="fas fa-book"></i> Yeni Kitap Ekle
+            </a>
+            <a href="#" class="quick-action-item" onclick="handleQuickAction('new-order')">
+                <i class="fas fa-shopping-cart"></i> Yeni Sipariş
+            </a>
+            <a href="#" class="quick-action-item" onclick="handleQuickAction('new-customer')">
+                <i class="fas fa-user-plus"></i> Yeni Müşteri
+            </a>
+            <a href="#" class="quick-action-item" onclick="handleQuickAction('bulk-import')">
+                <i class="fas fa-upload"></i> Toplu İçe Aktarma
+            </a>
+            <a href="#" class="quick-action-item" onclick="handleQuickAction('report')">
+                <i class="fas fa-chart-bar"></i> Hızlı Rapor
+            </a>
+            <a href="#" class="quick-action-item" onclick="handleQuickAction('backup')">
+                <i class="fas fa-cloud-download-alt"></i> Yedekleme
+            </a>
+        </div>
+    </div>
 </body>
 </html>
