@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>İsmail Kitap - Admin Panel</title>
     
     <!-- SEO Meta Tags -->
@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
     <!-- Custom Admin CSS -->
     <style>
         :root {
@@ -78,9 +79,50 @@
             color: var(--light-text);
             position: fixed;
             height: 100vh;
-            z-index: 1000;
+            height: calc(var(--vh, 1vh) * 100);
+            z-index: 1050;
             transition: all 0.3s ease;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            transform: translateX(-100%);
+            -webkit-transform: translateX(-100%);
+        }
+        
+        /* Sidebar active state for mobile */
+        .sidebar.active {
+            transform: translateX(0);
+            -webkit-transform: translateX(0);
+        }
+        
+        /* Sidebar overlay for mobile */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Desktop sidebar always visible */
+        @media (min-width: 992px) {
+            .sidebar {
+                transform: translateX(0) !important;
+                -webkit-transform: translateX(0) !important;
+            }
+            
+            .sidebar-overlay {
+                display: none !important;
+            }
         }
 
         .sidebar::-webkit-scrollbar {
@@ -193,8 +235,18 @@
         /* Main Content Styles */
         .main-content {
             flex: 1;
-            margin-left: 260px;
+            margin-left: 0;
+            min-height: 100vh;
+            min-height: calc(var(--vh, 1vh) * 100);
             transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        /* Desktop main content with sidebar margin */
+        @media (min-width: 992px) {
+            .main-content {
+                margin-left: 260px;
+            }
         }
 
         /* Navbar Styles */
@@ -776,6 +828,473 @@
             box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5);
         }
 
+        /* ===== MOBILE RESPONSIVE OPTIMIZATIONS ===== */
+        
+        /* Mobile Touch Targets & Accessibility */
+        @media (max-width: 768px) {
+            /* Minimum 44px touch targets */
+            .btn, .nav-link, .action-btn, .sidebar .nav-link {
+                min-height: 44px;
+                min-width: 44px;
+                padding: 12px;
+            }
+            
+            /* Sidebar navigation for mobile */
+            .sidebar .nav-link {
+                padding: 16px 20px;
+                font-size: 16px;
+            }
+            
+            /* Mobile font sizes */
+            .page-title {
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+            
+            .page-subtitle {
+                font-size: 14px;
+            }
+            
+            /* Stat cards mobile optimization */
+            .stat-card {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .stat-card .card-content h3 {
+                font-size: 20px;
+            }
+            
+            .stat-card .card-content span {
+                font-size: 12px;
+            }
+            
+            .stat-card .card-icon {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .stat-card .card-icon i {
+                font-size: 20px;
+            }
+            
+            /* Chart containers mobile */
+            .chart-container, .data-table-container {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .chart-title, .data-table-title {
+                font-size: 18px;
+            }
+            
+            /* Mobile navbar */
+            .top-navbar {
+                padding: 1rem;
+            }
+            
+            .navbar-brand {
+                font-size: 18px;
+            }
+            
+            /* Mobile search */
+            .search-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 10px 12px;
+            }
+            
+            /* Mobile action buttons */
+            .action-btn {
+                width: 40px;
+                height: 40px;
+                margin: 0 1px;
+            }
+            
+            /* Mobile table responsiveness */
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .data-table th, .data-table td {
+                padding: 10px 12px;
+                white-space: nowrap;
+            }
+            
+            /* Hide optional columns on mobile */
+            .mobile-hide {
+                display: none !important;
+            }
+            
+            /* Mobile filter panel */
+            .advanced-filter-panel {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .filter-title {
+                font-size: 16px;
+            }
+        }
+        
+        /* Extra small mobile devices */
+        @media (max-width: 576px) {
+            .container-fluid {
+                padding: 0 15px;
+            }
+            
+            .page-header {
+                padding: 15px 0;
+            }
+            
+            .stat-card {
+                padding: 12px;
+            }
+            
+            .chart-container, .data-table-container {
+                padding: 12px;
+            }
+            
+            .chart-wrapper {
+                height: 200px !important;
+            }
+            
+            .sidebar .nav-link {
+                padding: 14px 15px;
+            }
+            
+            /* Stack form elements */
+            .row.g-3 .col-md-3 {
+                margin-bottom: 15px;
+            }
+        }
+        
+        /* Tablet optimization */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 240px;
+            }
+            
+            .chart-wrapper {
+                height: 300px;
+            }
+            
+            .stat-card .card-content h3 {
+                font-size: 22px;
+            }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            /* Touch-friendly hover states */
+            .stat-card:active,
+            .chart-container:active,
+            .data-table-container:active {
+                transform: scale(0.98);
+            }
+            
+            .btn:active {
+                transform: scale(0.95);
+            }
+            
+            .sidebar .nav-link:active {
+                background: rgba(255,255,255,0.15);
+            }
+            
+            /* Larger touch targets */
+            .theme-toggle, .quick-action-btn {
+                width: 56px;
+                height: 56px;
+            }
+            
+            /* Disable hover animations on touch */
+            .sidebar .nav-link:hover {
+                transform: none;
+            }
+        }
+        
+        /* Hover-enabled devices */
+        @media (hover: hover) and (pointer: fine) {
+            /* Enhanced hover effects for mouse users */
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            }
+            
+            .sidebar .nav-link:hover {
+                transform: translateX(5px);
+            }
+        }
+        
+        /* High DPI screens */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .sidebar-logo .logo-circle {
+                border-width: 1px;
+            }
+            
+            .action-btn {
+                border-width: 1px;
+            }
+        }
+        
+        /* ===== iOS SAFARI SPECIFIC FIXES ===== */
+        
+        /* Safe area support for iOS */
+        @supports (padding: max(0px)) {
+            .top-navbar {
+                padding-top: max(1rem, env(safe-area-inset-top));
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
+            }
+            
+            .sidebar {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+                margin-left: env(safe-area-inset-left);
+            }
+            
+            .main-content {
+                padding-bottom: max(2rem, env(safe-area-inset-bottom));
+            }
+        }
+        
+        /* iOS scroll behavior fixes */
+        @supports (-webkit-overflow-scrolling: touch) {
+            .main-content,
+            .sidebar,
+            .table-responsive {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Prevent rubber band scrolling */
+            body {
+                -webkit-overflow-scrolling: auto;
+            }
+        }
+        
+        /* iOS input zoom prevention */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            input[type="search"],
+            select,
+            textarea {
+                font-size: 16px !important;
+                -webkit-appearance: none;
+                appearance: none;
+            }
+        }
+        
+        /* iOS status bar color */
+        @media (max-width: 768px) {
+            body {
+                padding-top: env(safe-area-inset-top);
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+        }
+        
+        /* WebKit specific optimizations */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+            /* Smooth scrolling for WebKit */
+            * {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            
+            /* Better touch callouts */
+            .btn, .nav-link, .action-btn {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+            
+            /* Better tap highlight */
+            .btn, .nav-link, .action-btn, .stat-card {
+                -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            }
+            
+            /* Prevent text size adjust */
+            .page-title, .chart-title, .data-table-title {
+                -webkit-text-size-adjust: 100%;
+                text-size-adjust: 100%;
+            }
+        }
+        
+        /* iOS PWA specific styles */
+        @media all and (display-mode: standalone) {
+            .top-navbar {
+                padding-top: max(1rem, 44px);
+            }
+            
+            body {
+                padding-top: 0;
+            }
+            
+            /* Hide address bar simulation */
+            .main-content {
+                min-height: 100vh;
+                min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+            }
+        }
+        
+        /* Landscape orientation fixes */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        /* Support for iOS 15+ */
+        @supports (height: 100dvh) {
+            .main-content {
+                min-height: 100dvh;
+            }
+        }
+        
+        /* Accessibility improvements for mobile */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .sidebar .nav-link {
+                border: 1px solid currentColor;
+                margin-bottom: 2px;
+            }
+            
+            .btn {
+                border-width: 2px;
+            }
+        }
+        
+        /* ===== MOBILE PERFORMANCE OPTIMIZATIONS ===== */
+        
+        /* GPU acceleration for smooth animations */
+        .sidebar,
+        .main-content,
+        .stat-card,
+        .chart-container,
+        .data-table-container,
+        .sidebar-overlay {
+            will-change: transform;
+            transform: translateZ(0);
+        }
+        
+        /* Optimize scroll performance */
+        .main-content,
+        .sidebar,
+        .table-responsive {
+            contain: layout style paint;
+        }
+        
+        /* Low bandwidth optimizations */
+        .low-bandwidth * {
+            animation-duration: 0.1s !important;
+            transition-duration: 0.1s !important;
+        }
+        
+        .low-bandwidth .chart-wrapper {
+            background-image: none !important;
+            background-color: rgba(255,255,255,0.05) !important;
+        }
+        
+        .low-bandwidth .stat-card,
+        .low-bandwidth .chart-container,
+        .low-bandwidth .data-table-container {
+            box-shadow: none !important;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Battery optimization */
+        @media (prefers-reduced-motion: reduce) {
+            .sidebar .nav-link,
+            .stat-card,
+            .btn {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+        
+        /* Memory efficient responsive images */
+        @media (max-width: 768px) {
+            img {
+                max-width: 100%;
+                height: auto;
+                image-rendering: optimizeQuality;
+            }
+        }
+        
+        /* Optimize table performance on mobile */
+        @media (max-width: 768px) {
+            .dataTables_wrapper {
+                font-size: 14px;
+            }
+            
+            .dataTables_wrapper .dataTables_paginate .paginate_button {
+                padding: 6px 10px !important;
+                margin: 2px 1px !important;
+            }
+            
+            .dataTables_wrapper .dataTables_filter input {
+                width: 100% !important;
+                padding: 8px 12px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            /* Hide non-essential table elements on mobile */
+            .dataTables_wrapper .dataTables_info {
+                font-size: 12px;
+                text-align: center;
+                padding: 5px 0;
+            }
+            
+            .dataTables_wrapper .dataTables_length {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
+        
+        /* Progressive Enhancement */
+        .chart-container canvas {
+            max-width: 100%;
+            height: auto !important;
+        }
+        
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            .gsap-animation,
+            .animated {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+        
+        /* Dark mode performance optimization */
+        @media (prefers-color-scheme: dark) {
+            body:not(.theme-loaded) {
+                background: #1a1a1a;
+                color: #fff;
+            }
+        }
+
         /* Advanced Filter Panel Styles */
         .advanced-filter-panel {
             background: white;
@@ -967,6 +1486,9 @@
     </style>
 </head>
 <body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="admin-container">
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
@@ -1654,6 +2176,8 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
 
     <script>
         // Admin Panel JavaScript
@@ -1662,23 +2186,251 @@
             const sidebar = document.getElementById('sidebar');
             const mobileToggle = document.getElementById('mobileToggle');
             const navLinks = document.querySelectorAll('.sidebar .nav-link');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            // iOS 100vh fix
+            function fixIOSHeight() {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            
+            // Mobile device detection
+            const isMobile = () => window.innerWidth < 992;
+            const isTouch = () => 'ontouchstart' in window || navigator.maxTouchPoints;
 
-            // Mobile Sidebar Toggle
+            // Mobile Sidebar Toggle - Enhanced Stability
+            let sidebarTransitionTimeout;
+            
+            function toggleSidebar() {
+                const isActive = sidebar.classList.contains('active');
+                
+                if (isActive) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
+            }
+            
+            function openSidebar() {
+                // Clear any pending transitions
+                clearTimeout(sidebarTransitionTimeout);
+                
+                sidebar.classList.add('active');
+                sidebarOverlay.classList.add('active');
+                
+                // Prevent body scroll when sidebar is open
+                document.body.style.overflow = 'hidden';
+                
+                // Add click-outside handler after a small delay to prevent immediate closure
+                setTimeout(() => {
+                    document.addEventListener('click', handleClickOutside);
+                }, 100);
+            }
+            
+            function closeSidebar() {
+                // Clear any pending transitions
+                clearTimeout(sidebarTransitionTimeout);
+                
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                // Remove click-outside handler
+                document.removeEventListener('click', handleClickOutside);
+            }
+            
+            function handleClickOutside(e) {
+                // Don't close if clicking on sidebar or toggle button
+                if (sidebar.contains(e.target) || (mobileToggle && mobileToggle.contains(e.target))) {
+                    return;
+                }
+                
+                // Only close on mobile
+                if (isMobile()) {
+                    closeSidebar();
+                }
+            }
+            
+            // Enhanced mobile toggle with better event handling
             if (mobileToggle) {
-                mobileToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('active');
+                // Remove any existing listeners
+                mobileToggle.replaceWith(mobileToggle.cloneNode(true));
+                const newMobileToggle = document.getElementById('mobileToggle');
+                
+                newMobileToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleSidebar();
+                });
+                
+                // Touch event for better mobile responsiveness
+                if (isTouch()) {
+                    newMobileToggle.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, { passive: false });
+                }
+            }
+            
+            // Overlay click to close sidebar with better event handling
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    closeSidebar();
+                });
+                
+                // Touch events for overlay
+                if (isTouch()) {
+                    sidebarOverlay.addEventListener('touchend', function(e) {
+                        e.stopPropagation();
+                        closeSidebar();
+                    }, { passive: false });
+                }
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                fixIOSHeight();
+                if (!isMobile()) {
+                    closeSidebar();
+                }
+            });
+            
+            // Handle orientation change for iOS
+            window.addEventListener('orientationchange', function() {
+                setTimeout(fixIOSHeight, 100);
+                
+                // Reinitialize charts on orientation change
+                setTimeout(() => {
+                    if (document.getElementById('dashboard-content').style.display !== 'none') {
+                        initDashboardCharts();
+                    }
+                }, 300);
+            });
+
+            // Mobile Performance Optimizations
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    fixIOSHeight();
+                    if (!isMobile()) {
+                        closeSidebar();
+                    }
+                    
+                    // Recalculate chart dimensions on resize
+                    if (window.Chart) {
+                        Object.keys(Chart.instances).forEach(key => {
+                            Chart.instances[key].resize();
+                        });
+                    }
+                }, 150);
+            });
+
+            // Lazy Loading for Better Performance
+            const observerOptions = {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.1
+            };
+
+            const lazyObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        
+                        // Lazy load charts
+                        if (target.classList.contains('chart-container') && !target.hasAttribute('data-initialized')) {
+                            target.setAttribute('data-initialized', 'true');
+                            setTimeout(() => {
+                                if (target.id === 'salesChart' || target.id === 'categoryChart') {
+                                    initDashboardCharts();
+                                }
+                            }, 100);
+                        }
+                        
+                        // Lazy load heavy content
+                        if (target.classList.contains('lazy-content')) {
+                            target.classList.add('loaded');
+                            lazyObserver.unobserve(target);
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe chart containers and lazy content
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('.chart-container, .lazy-content').forEach(el => {
+                    lazyObserver.observe(el);
+                });
+            });
+
+            // Touch Performance Optimization
+            if (isTouch()) {
+                // Use passive listeners for better scroll performance
+                document.addEventListener('touchstart', function(e) {}, { passive: true });
+                document.addEventListener('touchmove', function(e) {}, { passive: true });
+                
+                // Optimize touch interactions
+                let touchStartTime = 0;
+                document.addEventListener('touchstart', function(e) {
+                    touchStartTime = Date.now();
+                });
+                
+                document.addEventListener('touchend', function(e) {
+                    const touchDuration = Date.now() - touchStartTime;
+                    if (touchDuration < 150) { // Quick tap
+                        // Optimize for quick interactions
+                        if (e.target.closest('.stat-card')) {
+                            e.target.closest('.stat-card').style.transform = 'scale(0.98)';
+                            setTimeout(() => {
+                                e.target.closest('.stat-card').style.transform = '';
+                            }, 100);
+                        }
+                    }
                 });
             }
 
-            // Close sidebar when clicking outside on mobile
-            document.addEventListener('click', function(event) {
-                const isClickInsideSidebar = sidebar.contains(event.target);
-                const isClickOnToggleBtn = mobileToggle && mobileToggle.contains(event.target);
-                
-                if (window.innerWidth < 992 && !isClickInsideSidebar && !isClickOnToggleBtn && sidebar.classList.contains('active')) {
-                    sidebar.classList.remove('active');
+            // Memory Management for Mobile
+            function optimizeMemory() {
+                // Clear old chart instances periodically
+                if (window.Chart && Chart.instances) {
+                    Object.keys(Chart.instances).forEach(key => {
+                        const chart = Chart.instances[key];
+                        if (chart && chart.canvas && !document.body.contains(chart.canvas)) {
+                            chart.destroy();
+                            delete Chart.instances[key];
+                        }
+                    });
                 }
-            });
+                
+                // Garbage collection hint
+                if (window.gc && typeof window.gc === 'function') {
+                    window.gc();
+                }
+            }
+
+            // Optimize memory every 5 minutes on mobile
+            if (isMobileDevice) {
+                setInterval(optimizeMemory, 5 * 60 * 1000);
+            }
+
+            // Network-Aware Loading
+            if ('connection' in navigator) {
+                const connection = navigator.connection;
+                const handleConnectionChange = () => {
+                    if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+                        // Reduce animations and effects for slow connections
+                        document.body.classList.add('low-bandwidth');
+                        showToast('Yavaş bağlantı tespit edildi, performans optimizasyonları aktif', 'info');
+                    } else {
+                        document.body.classList.remove('low-bandwidth');
+                    }
+                };
+                
+                connection.addEventListener('change', handleConnectionChange);
+                handleConnectionChange();
+            }
 
             // Navigation Active State and Page Switching
             navLinks.forEach(link => {
@@ -1699,9 +2451,9 @@
                     // Load page content
                     loadPage(page);
                     
-                    // Close sidebar on mobile after navigation
-                    if (window.innerWidth < 992) {
-                        sidebar.classList.remove('active');
+                    // Close sidebar on mobile after navigation with smooth transition
+                    if (isMobile() && sidebar.classList.contains('active')) {
+                        setTimeout(closeSidebar, 200);
                     }
                 });
             });
@@ -1729,6 +2481,61 @@
                 }
             }
 
+            // Mobile Detection & Chart Options
+            const isMobileDevice = window.innerWidth <= 768;
+            const isTouchDevice = 'ontouchstart' in window;
+
+            // Mobile-Optimized Chart Configuration
+            function getMobileChartOptions(baseOptions) {
+                if (!isMobileDevice) return baseOptions;
+                
+                return {
+                    ...baseOptions,
+                    animation: { duration: 500 },
+                    plugins: {
+                        ...baseOptions.plugins,
+                        tooltip: {
+                            ...baseOptions.plugins.tooltip,
+                            titleFont: { size: 12, family: 'Inter' },
+                            bodyFont: { size: 11, family: 'Inter' },
+                            padding: 8
+                        }
+                    },
+                    elements: {
+                        point: {
+                            radius: isTouchDevice ? 4 : 3,
+                            hoverRadius: isTouchDevice ? 8 : 6,
+                            hitRadius: isTouchDevice ? 20 : 15
+                        },
+                        line: {
+                            borderWidth: isMobileDevice ? 2 : 3
+                        }
+                    },
+                    scales: {
+                        ...baseOptions.scales,
+                        x: {
+                            ...baseOptions.scales.x,
+                            ticks: {
+                                ...baseOptions.scales.x.ticks,
+                                font: { size: 10, family: 'Inter' },
+                                maxRotation: 45,
+                                minRotation: 0,
+                                autoSkip: true,
+                                maxTicksLimit: 4
+                            }
+                        },
+                        y: {
+                            ...baseOptions.scales.y,
+                            ticks: {
+                                ...baseOptions.scales.y.ticks,
+                                font: { size: 10, family: 'Inter' },
+                                maxTicksLimit: 5
+                            }
+                        }
+                    }
+                };
+            }
+
             // Initialize Dashboard Charts
             function initDashboardCharts() {
                 // Sales Chart
@@ -1736,79 +2543,82 @@
                 if (salesCtx && !salesCtx.hasAttribute('data-chart-initialized')) {
                     salesCtx.setAttribute('data-chart-initialized', 'true');
                     
+                    const salesOptions = getMobileChartOptions({
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: 'white',
+                                bodyColor: 'white',
+                                borderColor: 'rgba(59, 130, 246, 1)',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Satış: ₺${context.parsed.y.toLocaleString()}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    font: {
+                                        family: 'Inter, sans-serif'
+                                    }
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '₺' + (value / 1000) + 'K';
+                                    },
+                                    font: {
+                                        family: 'Inter, sans-serif'
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)',
+                                    drawBorder: false
+                                }
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        }
+                    });
+                    
                     new Chart(salesCtx, {
                         type: 'line',
                         data: {
-                            labels: ['Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül'],
+                            labels: isMobileDevice ? ['Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl'] : 
+                                   ['Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül'],
                             datasets: [{
                                 label: 'Satış (₺)',
                                 data: [65400, 78200, 85600, 92300, 108400, 124580],
                                 backgroundColor: 'rgba(59, 130, 246, 0.1)',
                                 borderColor: 'rgba(59, 130, 246, 1)',
-                                borderWidth: 3,
+                                borderWidth: isMobileDevice ? 2 : 3,
                                 pointBackgroundColor: 'rgba(59, 130, 246, 1)',
-                                pointRadius: 6,
-                                pointHoverRadius: 8,
+                                pointRadius: isTouchDevice ? 4 : 6,
+                                pointHoverRadius: isTouchDevice ? 8 : 8,
                                 tension: 0.4,
                                 fill: true
                             }]
                         },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    display: false
-                                },
-                                tooltip: {
-                                    mode: 'index',
-                                    intersect: false,
-                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                    titleColor: 'white',
-                                    bodyColor: 'white',
-                                    borderColor: 'rgba(59, 130, 246, 1)',
-                                    borderWidth: 1,
-                                    cornerRadius: 8,
-                                    callbacks: {
-                                        label: function(context) {
-                                            return `Satış: ₺${context.parsed.y.toLocaleString()}`;
-                                        }
-                                    }
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    grid: {
-                                        color: 'rgba(0, 0, 0, 0.05)',
-                                        drawBorder: false
-                                    },
-                                    ticks: {
-                                        font: {
-                                            family: 'Segoe UI'
-                                        }
-                                    }
-                                },
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function(value) {
-                                            return '₺' + (value / 1000) + 'K';
-                                        },
-                                        font: {
-                                            family: 'Segoe UI'
-                                        }
-                                    },
-                                    grid: {
-                                        color: 'rgba(0, 0, 0, 0.05)',
-                                        drawBorder: false
-                                    }
-                                }
-                            },
-                            interaction: {
-                                intersect: false,
-                                mode: 'index'
-                            }
-                        }
+                        options: salesOptions
                     });
                 }
                 
@@ -1820,7 +2630,9 @@
                     new Chart(categoryCtx, {
                         type: 'doughnut',
                         data: {
-                            labels: ['Roman', 'Bilim Kurgu', 'Kişisel Gelişim', 'Çocuk Kitapları', 'Tarih', 'Diğer'],
+                            labels: isMobileDevice ? 
+                                   ['Roman', 'Bilim K.', 'K.Gelişim', 'Çocuk', 'Tarih', 'Diğer'] :
+                                   ['Roman', 'Bilim Kurgu', 'Kişisel Gelişim', 'Çocuk Kitapları', 'Tarih', 'Diğer'],
                             datasets: [{
                                 data: [35, 22, 18, 12, 8, 5],
                                 backgroundColor: [
@@ -1832,24 +2644,51 @@
                                     '#64748b'
                                 ],
                                 borderWidth: 0,
-                                hoverBorderWidth: 3,
+                                hoverBorderWidth: isTouchDevice ? 4 : 3,
                                 hoverBorderColor: '#fff'
                             }]
                         },
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
+                            animation: {
+                                duration: isMobileDevice ? 500 : 1000
+                            },
                             plugins: {
                                 legend: {
                                     position: 'bottom',
                                     labels: {
-                                        boxWidth: 12,
-                                        padding: 15,
+                                        boxWidth: isMobileDevice ? 10 : 12,
+                                        padding: isMobileDevice ? 8 : 15,
                                         font: {
-                                            size: 12,
-                                            family: 'Segoe UI'
+                                            size: isMobileDevice ? 10 : 12,
+                                            family: 'Inter, sans-serif'
+                                        },
+                                        generateLabels: function(chart) {
+                                            const data = chart.data;
+                                            if (data.labels.length && data.datasets.length) {
+                                                const dataset = data.datasets[0];
+                                                return data.labels.map((label, i) => {
+                                                    const value = dataset.data[i];
+                                                    return {
+                                                        text: isMobileDevice ? `${label} (${value}%)` : `${label}: ${value}%`,
+                                                        fillStyle: dataset.backgroundColor[i],
+                                                        hidden: false,
+                                                        index: i
+                                                    };
+                                                });
+                                            }
+                                            return [];
                                         }
-                                    }
+                                    },
+                                    onClick: isTouchDevice ? function(e, legendItem, legend) {
+                                        // Enhanced touch interaction
+                                        const index = legendItem.index;
+                                        const chart = legend.chart;
+                                        const meta = chart.getDatasetMeta(0);
+                                        meta.data[index].hidden = !meta.data[index].hidden;
+                                        chart.update();
+                                    } : undefined
                                 },
                                 tooltip: {
                                     backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -1858,14 +2697,24 @@
                                     borderColor: 'rgba(59, 130, 246, 1)',
                                     borderWidth: 1,
                                     cornerRadius: 8,
+                                    titleFont: { size: isMobileDevice ? 12 : 14, family: 'Inter' },
+                                    bodyFont: { size: isMobileDevice ? 11 : 12, family: 'Inter' },
+                                    padding: isMobileDevice ? 8 : 12,
                                     callbacks: {
                                         label: function(context) {
-                                            return `${context.label}: %${context.parsed}`;
+                                            const fullLabels = ['Roman', 'Bilim Kurgu', 'Kişisel Gelişim', 'Çocuk Kitapları', 'Tarih', 'Diğer'];
+                                            return `${fullLabels[context.dataIndex]}: %${context.parsed}`;
                                         }
                                     }
                                 }
                             },
-                            cutout: '65%'
+                            cutout: isMobileDevice ? '60%' : '65%',
+                            elements: {
+                                arc: {
+                                    borderWidth: 0,
+                                    hoverBorderWidth: isTouchDevice ? 4 : 2
+                                }
+                            }
                         }
                     });
                 }
@@ -2697,6 +3546,84 @@
                     newToast.remove();
                 });
             }
+
+            // DataTables Mobile Responsive Initialization
+            function initMobileDataTables() {
+                $('.data-table').each(function() {
+                    if (!$.fn.DataTable.isDataTable(this)) {
+                        $(this).DataTable({
+                            responsive: {
+                                details: {
+                                    type: 'column',
+                                    target: 'tr'
+                                }
+                            },
+                            columnDefs: [{
+                                className: 'control',
+                                orderable: false,
+                                targets: 0
+                            }],
+                            order: [1, 'asc'],
+                            pageLength: isMobileDevice ? 5 : 10,
+                            lengthMenu: isMobileDevice ? [[5, 10, 25], [5, 10, 25]] : [[10, 25, 50, 100], [10, 25, 50, 100]],
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json',
+                                searchPlaceholder: 'Ara...',
+                                lengthMenu: isMobileDevice ? '_MENU_ kayıt' : 'Sayfa başına _MENU_ kayıt göster',
+                                info: isMobileDevice ? '_START_-_END_ / _TOTAL_' : '_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor',
+                                infoEmpty: 'Kayıt bulunamadı',
+                                infoFiltered: '(toplam _MAX_ kayıt içinden filtrelendi)',
+                                paginate: {
+                                    first: '‹‹',
+                                    last: '››',
+                                    next: '›',
+                                    previous: '‹'
+                                }
+                            },
+                            dom: isMobileDevice ? 
+                                '<"top"f>rt<"bottom"lip><"clear">' : 
+                                '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                            scrollX: true,
+                            scrollCollapse: true,
+                            autoWidth: false,
+                            processing: true,
+                            stateSave: true,
+                            drawCallback: function() {
+                                // Mobile-specific styling after draw
+                                if (isMobileDevice) {
+                                    $(this).closest('.dataTables_wrapper').find('.dataTables_paginate .paginate_button').css({
+                                        'padding': '8px 12px',
+                                        'margin': '0 2px',
+                                        'min-width': '44px',
+                                        'text-align': 'center'
+                                    });
+                                    
+                                    $(this).closest('.dataTables_wrapper').find('.dataTables_filter input').css({
+                                        'width': '100%',
+                                        'padding': '10px',
+                                        'font-size': '16px'
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Initialize DataTables when jQuery is ready
+            $(document).ready(function() {
+                // Wait for all content to load
+                setTimeout(initMobileDataTables, 100);
+                
+                // Reinitialize when switching pages
+                const originalLoadPage = window.loadPage;
+                if (originalLoadPage) {
+                    window.loadPage = function(page) {
+                        originalLoadPage.call(this, page);
+                        setTimeout(initMobileDataTables, 200);
+                    };
+                }
+            });
 
             // SortableJS Integration
             const sortableScript = document.createElement('script');
